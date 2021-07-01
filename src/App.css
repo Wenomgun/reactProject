@@ -1,36 +1,11 @@
-.app-wrapper {
+.app__wrapper {
   display: flex;
   flex-direction: column;
   height: 100vh
 }
-.app-bodyContent {
+.app__bodyContent {
   display: flex;
   flex-direction: row;
   margin-top: 10px;
   height: 100%;
-}
-
-.app-header {
-  background-color: mintcream;
-  border: 1px solid black;
-}
-
-.app-nav {
-  background-color: mintcream;
-  border: 1px solid black;
-  height: 100%;
-}
-
-.app-content {
-  background-color: #fff;
-  border: 1px solid black;
-  width: 100%;
-  height: 100%;
-  margin-left: 10px;
-}
-
-.app-footer {
-  background-color: mintcream;
-  border: 1px solid black;
-  margin-top: 10px;
 }

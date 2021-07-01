@@ -1,7 +1,8 @@
+import classes from './Footer.module.css'
 
 const Footer = () => {
     return (
-        <footer className='app-footer'>
+        <footer className={classes.footer}>
             Footer
         </footer>
     );
