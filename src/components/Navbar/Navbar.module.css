@@ -3,3 +3,16 @@
     border: 1px solid black;
     height: 100%;
 }
+
+.navbar a {
+    text-decoration: none;
+    color: black;
+}
+
+.navbar a.activeLink {
+    color: chocolate;
+}
+
+.navbar a:hover {
+    color: cadetblue;
+}
