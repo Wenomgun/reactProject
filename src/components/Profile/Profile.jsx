@@ -1,8 +1,11 @@
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import Posts from "./Posts/Posts";
 
 const Profile = () =>{
     return (
         <div>
-            Profile
+            <ProfileInfo></ProfileInfo>
+            <Posts></Posts>
         </div>
     );
 }

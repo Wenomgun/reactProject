@@ -1,0 +1,10 @@
+.navbar {
+    background-color: mintcream;
+    border: 1px solid black;
+    height: 100%;
+}
+
+.information {
+    display: flex;
+    flex-direction: column;
+}

@@ -6,7 +6,7 @@ import News from "../News/News";
 import Music from "../Music/Music";
 import Setting from "../Setting/Setting";
 
-const Content = () =>{
+const Content = (props) =>{
     return (
         <div className={classes.content}>
             <Switch>
@@ -14,7 +14,9 @@ const Content = () =>{
                     <Profile></Profile>
                 </Route>
                 <Route path="/message">
-                    <Dialogs></Dialogs>
+                    <Dialogs dialogsData={props.dialogsData}
+                             messagesData={props.messagesData}
+                    ></Dialogs>
                 </Route>
                 <Route path="/news">
                     <News></News>
