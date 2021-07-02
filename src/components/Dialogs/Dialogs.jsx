@@ -6,10 +6,10 @@ const Dialogs = (props) =>{
     return (
         <div className={classes.dialogs}>
             <div className={classes.listWrapper}>
-                <List dialogsData={props.dialogsData}></List>
+                <List dialogsData={props.data.dialogsData}></List>
             </div>
             <div className={classes.messagesWrapper}>
-                <Messages messagesData={props.messagesData}></Messages>
+                <Messages messagesData={props.data.messagesData}></Messages>
             </div>
         </div>
     );

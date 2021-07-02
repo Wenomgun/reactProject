@@ -1,12 +1,12 @@
 import classes from './Information.module.css'
 
-const Information = () =>{
+const Information = (props) =>{
+    const data = props.data;
     return (
        <div className={classes.information}>
-           <span>Имя: MAkar</span>
-           <span>Фамилия: Makarov</span>
-           <span>Дата рождения: 12.11.2000</span>
-           <span>Информация: Любой текст</span>
+           <b>{data.firstName} {data.lastName}</b>
+           <span>Дата рождения: {data.birthday + ''}</span>
+           <span>Информация: {data.info}</span>
        </div>
     );
 }

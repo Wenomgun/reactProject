@@ -5,11 +5,33 @@
 }
 
 .avatar {
-
+    height: 160px;
 }
 
 .avatar img {
     width: 150px;
     border-radius: 50%;
     border: 1px solid;
+}
+
+.avatar .isOnline {
+    width: 10px;
+    height: 10px;
+    background: #78cd78;
+    position: relative;
+    bottom: 30px;
+    border-radius: 50%;
+    left: 20px;
+    border: 1px solid #fff;
+}
+
+.avatar .blobAvatar {
+    width: 152px;
+    height: 152px;
+    border-radius: 50%;
+    border: 1px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #a9a9a940;
 }

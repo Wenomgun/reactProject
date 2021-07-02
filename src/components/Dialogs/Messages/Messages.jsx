@@ -7,7 +7,7 @@ const Messages = (props) =>{
     return (
         <div className={classes.messagesWrapper}>
             {data.map((item, i) =>
-                <Message key={i} text={item.text}></Message>
+                <Message key={i} data={item}></Message>
             )}
         </div>
     );
