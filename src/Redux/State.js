@@ -1,3 +1,6 @@
+import postReducer from "./Post-reducer";
+import messageeReducer from "./Message-reducer";
+
 const dialogsData = [
     {name: 'Alex', userId: '1'},
     {name: 'Martin', userId: '2'},
@@ -39,5 +42,33 @@ let state = {
         }
     }
 }
+export const addPostActionCreator = (data) => ({
+    type: 'add-post',
+    data: data
+});
 
-export default state;
+export const addMsgActionCreator = (data) => ({
+    type: 'add-msg',
+    data: data
+});
+
+let store = {
+    _state: state,
+    _callBack() {
+       console.log('ccchange');
+    },
+    subscribe(observer) {
+        this._callBack = observer;
+    },
+    getState() {
+        return this._state;
+    },
+    //action = { type, data }
+    dispatch(action) {
+        this._state.profileData.postsData = postReducer(this._state.profileData.postsData, action);
+        this._state.dialogs.messagesData = messageeReducer(this._state.dialogs.messagesData, action);
+        this._callBack();
+    }
+}
+
+export default store;
