@@ -5,8 +5,8 @@ import Information from "./Information/Information";
 const ProfileInfo = (props) =>{
     return (
        <div className={classes.profileInfo}>
-           <Avatar data={props.data}></Avatar>
-           <Information data={props.data}></Information>
+           <Avatar data={props.userInfo}></Avatar>
+           <Information data={props.userInfo}></Information>
        </div>
     );
 }

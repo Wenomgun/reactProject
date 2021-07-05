@@ -25,32 +25,19 @@ const postsData = [
 ];
 
 let state = {
-    dialogs: {
-        dialogsData,
-        messagesData
-    },
-    profileData: {
-        postsData,
-        userInfo: {
-            firstName: 'Makar',
-            lastName: 'Makarov',
-            birthday: new Date(),
-            address: 'Moscow',
-            info: 'I`m student and programmer',
-            photo: 'https://image.freepik.com/free-vector/mans-head-avatar-vector_83738-354.jpg',
-            isOnline: true
-        }
+    dialogsData,
+    postsData,
+    messagesData,
+    userInfo: {
+        firstName: 'Makar',
+        lastName: 'Makarov',
+        birthday: new Date(),
+        address: 'Moscow',
+        info: 'I`m student and programmer',
+        photo: 'https://image.freepik.com/free-vector/mans-head-avatar-vector_83738-354.jpg',
+        isOnline: true
     }
 }
-export const addPostActionCreator = (data) => ({
-    type: 'add-post',
-    data: data
-});
-
-export const addMsgActionCreator = (data) => ({
-    type: 'add-msg',
-    data: data
-});
 
 let store = {
     _state: state,
@@ -65,8 +52,8 @@ let store = {
     },
     //action = { type, data }
     dispatch(action) {
-        this._state.profileData.postsData = postReducer(this._state.profileData.postsData, action);
-        this._state.dialogs.messagesData = messageeReducer(this._state.dialogs.messagesData, action);
+        this._state.postsData = postReducer(this._state.postsData, action);
+        this._state.messagesData = messageeReducer(this._state.messagesData, action);
         this._callBack();
     }
 }

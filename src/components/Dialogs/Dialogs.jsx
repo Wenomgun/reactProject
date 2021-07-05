@@ -1,16 +1,15 @@
 import classes from './Dialogs.module.css'
-import List from "./List/List";
-import Messages from "./Messages/Messages";
+import MessagesContainer from "./Messages/MessagesContainer";
+import ListContainer from "./List/ListContainer";
 
 const Dialogs = (props) =>{
     return (
         <div className={classes.dialogs}>
             <div className={classes.listWrapper}>
-                <List dialogsData={props.data.dialogsData}></List>
+                <ListContainer></ListContainer>
             </div>
             <div className={classes.messagesWrapper}>
-                <Messages messagesData={props.data.messagesData}
-                          dispatch={props.dispatch} ></Messages>
+                <MessagesContainer ></MessagesContainer>
             </div>
         </div>
     );

@@ -11,13 +11,11 @@ const Content = (props) =>{
         <div className={classes.content}>
             <Switch>
                 <Route path="/profile">
-                    <Profile
-                        data={props.state.profileData}
-                        dispatch={props.dispatch} ></Profile>
+                    <Profile></Profile>
                 </Route>
                 <Route path="/message">
                     <Dialogs
-                        data={props.state.dialogs}
+                        data={props.state}
                         dispatch={props.dispatch}
                     ></Dialogs>
                 </Route>

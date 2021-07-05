@@ -1,11 +1,10 @@
 import Post from "./Post/Post";
 import React from 'react';
-import {addPostActionCreator} from "../../../Redux/State";
+import {addPostActionCreator} from "../../../Redux/Post-reducer";
 
 
 
 const Posts = (props) =>{
-    const data = props.data;
     let postArea = React.createRef();
 
     let _addPost = (e) => {
@@ -18,7 +17,7 @@ const Posts = (props) =>{
                 photoUser: 'https://image.freepik.com/free-vector/mans-head-avatar-vector_83738-354.jpg'
             };
 
-        props.dispatch(addPostActionCreator(newPost));
+        props.addPost(newPost)
         postArea.current.value = '';
     }
 
@@ -32,7 +31,7 @@ const Posts = (props) =>{
                    <button onClick={_addPost}>+ Добавить</button>
                </div>
            </div>
-           {data.map((item, i) =>
+           {props.postsData.map((item, i) =>
                <Post key={i} data={item}></Post>
            )}
        </div>

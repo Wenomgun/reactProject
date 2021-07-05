@@ -3,12 +3,10 @@ import {BrowserRouter as Router} from "react-router-dom";
 import Dialog from "./Dialog/Dialog";
 
 const List = (props) =>{
-    const data = props.dialogsData
-
     return (
         <Router>
             <div className={classes.list}>
-                {data.map((item, i) =>
+                {props.dialogsData.map((item, i) =>
                     <Dialog key={i} name={item.name} userId={item.userId}></Dialog>
                 )}
             </div>

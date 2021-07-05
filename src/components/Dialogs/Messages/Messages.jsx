@@ -1,10 +1,8 @@
 import classes from './Messages.module.css'
 import Message from "./Message/Message";
 import React from 'react';
-import {addMsgActionCreator} from "../../../Redux/State";
 
 const Messages = (props) =>{
-    const data = props.messagesData;
     let messageInput = React.createRef();
 
     let _sendMessage = (e) => {
@@ -15,13 +13,13 @@ const Messages = (props) =>{
             fromMe: true
         };
 
-        props.dispatch(addMsgActionCreator(newMsg));
+        props.sendMessage(newMsg);
         messageInput.current.value = '';
     }
 
     return (
         <div className={classes.messagesWrapper}>
-            {data.map((item, i) =>
+            {props.messagesData.map((item, i) =>
                 <Message key={i} data={item}></Message>
             )}
             <div className={classes.messageArea}>
