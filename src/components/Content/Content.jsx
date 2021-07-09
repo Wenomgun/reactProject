@@ -5,6 +5,8 @@ import {Route, Switch} from "react-router-dom";
 import News from "../News/News";
 import Music from "../Music/Music";
 import Setting from "../Setting/Setting";
+import People from "../People/People";
+import PeopleContainer from "../People/PeopleContainer";
 
 const Content = (props) =>{
     return (
@@ -12,6 +14,9 @@ const Content = (props) =>{
             <Switch>
                 <Route path="/profile">
                     <Profile></Profile>
+                </Route>
+                <Route path="/people">
+                    <PeopleContainer></PeopleContainer>
                 </Route>
                 <Route path="/message">
                     <Dialogs
