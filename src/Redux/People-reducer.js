@@ -3,12 +3,14 @@ const SHOW_MORE = 'showMore';
 const SET_PEOPLE = 'setPeople';
 const SET_TOTAL_PEOPLE = 'setTotalPeople';
 const SET_CURRENT_PAGE = 'setCurrentPage';
+const SET_IS_FETCHING = 'setIsFetching';
 
 let initialState = {
     peopleData: [],
     pageSize: 3,
     totalPeople: 0,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: false
 };
 
 const peopleReducer = (state = initialState, action) => {
@@ -31,6 +33,8 @@ const peopleReducer = (state = initialState, action) => {
         return {...state, totalPeople: action.data};
     } else if (action.type === SET_CURRENT_PAGE) {
         return {...state, currentPage: action.data};
+    } else if (action.type === SET_IS_FETCHING) {
+        return {...state, isFetching: action.data};
     }
     return state;
 }
@@ -58,6 +62,11 @@ export const setTotalPeople = (count) => ({
 export const setCurrentPage = (page) => ({
     type: SET_CURRENT_PAGE,
     data: page
+});
+
+export const setIsFetching = (isFetching) => ({
+    type: SET_IS_FETCHING,
+    data: isFetching
 });
 
 export default peopleReducer;
