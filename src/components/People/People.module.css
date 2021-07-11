@@ -38,3 +38,23 @@
     margin-bottom: 10px;
     padding: 10px;
 }
+
+.currentPage {
+    font-weight: bold;
+}
+
+.paginator {
+    display: flex;
+    flex-direction: row;
+}
+
+.page {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.page:hover {
+    background-color: rgba(95, 158, 160, 0.43);
+}
