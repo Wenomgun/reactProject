@@ -88,27 +88,11 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        changeFollowed: (userId) => {
-            dispatch(changeFollowedActionCreator(userId));
-        },
-        showMore: (userId) => {
-            dispatch(showMoreActionCreator());
-        },
-        setPeople: (people) => {
-            dispatch(setPeopleActionCreator(people));
-        },
-        setTotalPeople: (count) => {
-            dispatch(setTotalPeople(count));
-        },
-        setCurrentPage: (page) => {
-            dispatch(setCurrentPage(page));
-        },
-        setIsFetching: (isFetch) => {
-            dispatch(setIsFetching(isFetch));
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PeopleContainer);
+export default connect(mapStateToProps, {
+    changeFollowed: changeFollowedActionCreator,
+    showMore: showMoreActionCreator,
+    setPeople: setPeopleActionCreator,
+    setTotalPeople,
+    setCurrentPage,
+    setIsFetching
+})(PeopleContainer);

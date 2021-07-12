@@ -1,13 +1,9 @@
-import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import PostsContainer from "./Posts/PostsContainer";
-import ProfileInfoContainer from "./ProfileInfo/ProfileInfoContainer";
+
+import ProfileContainer from "./ProfileContainer";
 
 const Profile = (props) =>{
     return (
-        <div>
-            <ProfileInfoContainer></ProfileInfoContainer>
-            <PostsContainer></PostsContainer>
-        </div>
+        <ProfileContainer></ProfileContainer>
     );
 }
 

@@ -11,7 +11,7 @@ const Content = (props) =>{
     return (
         <div className={classes.content}>
             <Switch>
-                <Route path="/profile">
+                <Route path="/profile/:userId?">
                     <Profile></Profile>
                 </Route>
                 <Route path="/people">

@@ -31,7 +31,7 @@ const Posts = (props) =>{
                    <button onClick={_addPost}>+ Добавить</button>
                </div>
            </div>
-           {props.postsData.map((item, i) =>
+           {props.postData.map((item, i) =>
                <Post key={i} data={item}></Post>
            )}
        </div>

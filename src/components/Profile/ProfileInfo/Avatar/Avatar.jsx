@@ -4,8 +4,8 @@ const Avatar = (props) => {
 
     function renderAvatar(data) {
         const photo = data.photo;
-        const firstName = data.firstName.slice(0, 1);
-        const lastName = data.lastName.slice(0, 1);
+        const firstName = data.fullName.split(' ')[0].slice(0, 1);
+        const lastName = data.fullName.split(' ')[1].slice(0, 1);
         if (photo) {
             return (
                 <img src={photo}/>
