@@ -8,70 +8,63 @@ import {
     showMoreActionCreator
 } from "../../Redux/People-reducer";
 import db from "../../Redux/db";
-import PeoplePresent from "./PeoplePresent";
+import axios from 'axios';
+import UsersPresent from "./UsersPresent";
 
-class PeopleContainer extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
+class UsersContainer extends React.Component {
     getPeople = () => {
-        this.props.setIsFetching(true)
-        Promise.all([
-            db.get(`/peoples.json?orderBy="userId"&limitToFirst=${this.props.pageSize}&print=pretty`),
-            db.get('/peoplesTotalCount.json')
-        ]).then((resp) => {
-            const peoplesData = resp[0].data;
-            const pagesData = resp[1].data;
-            let peoples = [];
-            for (const key in peoplesData) {
-                peoples.push({ ...peoplesData[key]})
-            }
-            for (const key in pagesData) {
-                this.props.setTotalPeople(pagesData[key]);
-            }
-            this.props.setPeople(peoples);
-            this.props.setIsFetching(false);
+        this.props.setIsFetching(true);
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users`)
+            .then((resp) => {
+                if (!resp.data.error) {
+                    const peoplesData = resp.data.items;
+                    const totalCount = resp.data.totalCount;
+                    this.props.setTotalPeople(totalCount);
+                    this.props.setPeople(peoplesData);
+                    this.props.setIsFetching(false);
+                }
         });
     }
 
     componentDidMount() {
-        // let data = {userId: 10,
-        //     fullName: 'Soft Gopnic',
-        //     description: 'I`m driver',
-        //     photo: 'https://image.freepik.com/free-vector/mans-head-avatar-vector_83738-354.jpg',
-        //     address: 'Omsk',
-        //     isFollowed: false
-        // };
-        // db.post('/peoplesTotalCount.json', 10);
         this.getPeople();
     }
 
     changePageHandler(page) {
         this.props.setCurrentPage(page);
         this.props.setIsFetching(true);
-        const startPosition = (this.props.pageSize * page) - (this.props.pageSize - 1);
-        db.get(`/peoples.json?orderBy="userId"&startAt=${startPosition}&limitToFirst=${this.props.pageSize}&print=pretty`)
+        db.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}`)
+            .then((resp) => {
+                if (!resp.data.error) {
+                    const peoplesData = resp.data.items;
+                    const totalCount = resp.data.totalCount;
+                    this.props.setPeople(peoplesData);
+                    this.props.setIsFetching(false);
+                }
+            });
+    }
+
+    changeFollowedUser = (user) => {
+        const newUser = {...user, isFollowed: !user.isFollowed};
+        db.put('/peoples.json', newUser)
             .then((resp) => {
                 const peoplesData = resp.data;
-
                 let peoples = [];
                 for (const key in peoplesData) {
                     peoples.push({ ...peoplesData[key]})
                 }
-                this.props.setPeople(peoples);
-                this.props.setIsFetching(false)
+                this.props.changeFollowed(newUser);
             });
     }
 
     render() {
-        return <PeoplePresent
+        return <UsersPresent
             totalPeople={this.props.totalPeople}
             peopleData={this.props.peopleData}
             pageSize={this.props.pageSize}
             currentPage={this.props.currentPage}
             changePageHandler={(page) => {this.changePageHandler(page)}}
-            changeFollowed={this.props.changeFollowed}
+            changeFollowed={this.changeFollowedUser}
             isFetching={this.props.isFetching}
             setIsFetching={() => {this.props.setIsFetching()}}
         />
@@ -95,4 +88,4 @@ export default connect(mapStateToProps, {
     setTotalPeople,
     setCurrentPage,
     setIsFetching
-})(PeopleContainer);
+})(UsersContainer);

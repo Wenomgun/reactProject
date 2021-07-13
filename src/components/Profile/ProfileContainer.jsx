@@ -11,12 +11,10 @@ class ProfileContainer extends React.Component {
     componentDidMount() {
         const userId = this.props.match.params.userId || 1;
 
-        db.get(`/peoples.json?orderBy="userId"&startAt=${userId}&limitToFirst=1&print=pretty`)
+        db.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
             .then((resp) => {
-                const peoplesData = resp.data;
-                for (const key in peoplesData) {
-                    this.props.setProfileData({ ...peoplesData[key]});
-                }
+                const userData = resp.data;
+                this.props.setProfileData(userData);
             });
     }
 

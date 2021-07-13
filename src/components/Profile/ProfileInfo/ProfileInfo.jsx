@@ -1,7 +1,7 @@
 import classes from './ProfileInfo.module.css'
-import Avatar from "./Avatar/Avatar";
 import Information from "./Information/Information";
 import Reloader from "../../Common/Reloader";
+import Avatar from "../../Common/Avatar";
 
 const ProfileInfo = (props) =>{
 

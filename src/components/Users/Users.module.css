@@ -46,13 +46,19 @@
 .paginator {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    height: 65px;
+    overflow: auto;
 }
 
 .page {
-    width: 20px;
-    height: 20px;
+    min-width: 22px;
+    min-height: 20px;
     text-align: center;
     cursor: pointer;
+    border: 1px solid;
+    margin: 5px;
+    border-radius: 50%;
 }
 
 .page:hover {

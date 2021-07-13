@@ -1,9 +1,10 @@
-import classes from './People.module.css'
+import classes from './Users.module.css'
 import React from 'react';
 import {NavLink} from "react-router-dom";
 import Reloader from "../Common/Reloader";
+import Avatar from "../Common/Avatar";
 
-let PeoplePresent = (props) => {
+let UsersPresent = (props) => {
     let pagesCount = Math.ceil(props.totalPeople / props.pageSize);
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
@@ -15,24 +16,24 @@ let PeoplePresent = (props) => {
             return <Reloader></Reloader>
         } else {
             return props.peopleData.map((user) => {
-                return <div key={user.userId} className={classes.peopleWrap}>
+                return <div key={user.id} className={classes.peopleWrap}>
                     <div className={classes.photoWrap}>
                         <div>
-                            <NavLink to={`/profile/${user.userId}`} >
-                                <img className={classes.avatar} src={user.photo} />
+                            <NavLink to={`/profile/${user.id}`} >
+                                <Avatar data={user}></Avatar>
                             </NavLink>
                         </div>
                         <div>
-                            <button onClick={() => {props.changeFollowed(user.userId)}}
-                                    className={user.isFollowed ? classes.isNotFollowed : classes.isFollowed}>
-                                {user.isFollowed ? 'Отписаться' : 'Подписаться'}
+                            <button onClick={() => {props.changeFollowed(user)}}
+                                    className={user.followed ? classes.isNotFollowed : classes.isFollowed}>
+                                {user.followed ? 'Отписаться' : 'Подписаться'}
                             </button>
                         </div>
                     </div>
                     <div className={classes.infoWrap}>
                         <div className={classes.info}>
-                            <div>{user.fullName}</div>
-                            <div>{user.address}</div>
+                            <div>{user.name}</div>
+                            <div>{user.status}</div>
                         </div>
                         <div>
                             {user.description}
@@ -57,4 +58,4 @@ let PeoplePresent = (props) => {
     </div>
 }
 
-export default PeoplePresent;
+export default UsersPresent;

@@ -5,7 +5,7 @@ import {Route, Switch} from "react-router-dom";
 import News from "../News/News";
 import Music from "../Music/Music";
 import Setting from "../Setting/Setting";
-import PeopleContainer from "../People/PeopleContainer";
+import PeopleContainer from "../Users/UsersContainer";
 
 const Content = (props) =>{
     return (
