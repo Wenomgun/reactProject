@@ -1,8 +1,8 @@
 const SET_USER_DATA = 'setUserData';
 
 let initialUserData = {
-    userData: {},
-    isAuth: false
+    isAuth: false,
+    userData: {}
 }
 
 const authReducer = (state = initialUserData, action) => {

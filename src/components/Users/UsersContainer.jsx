@@ -10,15 +10,15 @@ import {
 import db from "../../Redux/db";
 import axios from 'axios';
 import UsersPresent from "./UsersPresent";
+import {api} from "../../api/api";
 
 class UsersContainer extends React.Component {
     getPeople = () => {
         this.props.setIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users`)
-            .then((resp) => {
-                if (!resp.data.error) {
-                    const peoplesData = resp.data.items;
-                    const totalCount = resp.data.totalCount;
+        api.getUsers().then((data) => {
+                if (!data.error) {
+                    const peoplesData = data.items;
+                    const totalCount = data.totalCount;
                     this.props.setTotalPeople(totalCount);
                     this.props.setPeople(peoplesData);
                     this.props.setIsFetching(false);
@@ -33,11 +33,10 @@ class UsersContainer extends React.Component {
     changePageHandler(page) {
         this.props.setCurrentPage(page);
         this.props.setIsFetching(true);
-        db.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}`)
-            .then((resp) => {
-                if (!resp.data.error) {
-                    const peoplesData = resp.data.items;
-                    const totalCount = resp.data.totalCount;
+        api.getUsers(page).then((data) => {
+                if (!data.error) {
+                    const peoplesData = data.items;
+                    const totalCount = data.totalCount;
                     this.props.setPeople(peoplesData);
                     this.props.setIsFetching(false);
                 }
@@ -45,16 +44,12 @@ class UsersContainer extends React.Component {
     }
 
     changeFollowedUser = (user) => {
-        const newUser = {...user, isFollowed: !user.isFollowed};
-        db.put('/peoples.json', newUser)
-            .then((resp) => {
-                const peoplesData = resp.data;
-                let peoples = [];
-                for (const key in peoplesData) {
-                    peoples.push({ ...peoplesData[key]})
-                }
+        const newUser = {...user, isFollowed: user.followed};
+        api.changedFollowed(user.id, user.followed).then((resp) => {
+            if (resp.data.resultCode === 0) {
                 this.props.changeFollowed(newUser);
-            });
+            }
+        });
     }
 
     render() {

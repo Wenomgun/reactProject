@@ -15,14 +15,15 @@ let initialState = {
 
 const peopleReducer = (state = initialState, action) => {
     if (action.type === CHANGE_FOLLOW) {
-        let userId = action.data;
+        let userDataAction = action.data;
+
         return {
             ...state,
             peopleData: state.peopleData.map((user) => {
-                if (user.userId !== userId) {
+                if (userDataAction.id !== user.id) {
                     return user;
                 }
-                return {...user, isFollowed: !user.isFollowed}
+                return {...user, followed: !user.followed, isFollowed: !user.followed}
             })
         };
     } else if (action.type === SHOW_MORE) {
