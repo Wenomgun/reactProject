@@ -1,4 +1,5 @@
 import axios from "axios";
+import db from "../Redux/db";
 
 const baseURL = 'https://social-network.samuraijs.com/api/1.0';
 
@@ -21,5 +22,12 @@ export const api = {
         } else {
             return axiosInst.post(`/follow/${id}`);
         }
+    },
+    authMe: () => {
+        return axiosInst.get('/auth/me');
+    },
+    getUserProfile: (userId) => {
+        return axiosInst.get(`/profile/${userId}`)
+            .then((resp) => resp.data);
     }
 }

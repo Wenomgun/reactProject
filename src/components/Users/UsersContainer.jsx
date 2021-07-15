@@ -1,55 +1,22 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {
-    changeFollowedActionCreator,
-    setCurrentPage, setIsFetching,
-    setPeopleActionCreator,
-    setTotalPeople,
-    showMoreActionCreator
+    changeFollowed, getUsers, setIsFetching
 } from "../../Redux/People-reducer";
-import db from "../../Redux/db";
-import axios from 'axios';
 import UsersPresent from "./UsersPresent";
-import {api} from "../../api/api";
 
 class UsersContainer extends React.Component {
-    getPeople = () => {
-        this.props.setIsFetching(true);
-        api.getUsers().then((data) => {
-                if (!data.error) {
-                    const peoplesData = data.items;
-                    const totalCount = data.totalCount;
-                    this.props.setTotalPeople(totalCount);
-                    this.props.setPeople(peoplesData);
-                    this.props.setIsFetching(false);
-                }
-        });
-    }
 
     componentDidMount() {
-        this.getPeople();
+        this.props.getUsers();
     }
 
     changePageHandler(page) {
-        this.props.setCurrentPage(page);
-        this.props.setIsFetching(true);
-        api.getUsers(page).then((data) => {
-                if (!data.error) {
-                    const peoplesData = data.items;
-                    const totalCount = data.totalCount;
-                    this.props.setPeople(peoplesData);
-                    this.props.setIsFetching(false);
-                }
-            });
+        this.props.getUsers(page);
     }
 
     changeFollowedUser = (user) => {
-        const newUser = {...user, isFollowed: user.followed};
-        api.changedFollowed(user.id, user.followed).then((resp) => {
-            if (resp.data.resultCode === 0) {
-                this.props.changeFollowed(newUser);
-            }
-        });
+        this.props.changeFollowed(user);
     }
 
     render() {
@@ -61,6 +28,7 @@ class UsersContainer extends React.Component {
             changePageHandler={(page) => {this.changePageHandler(page)}}
             changeFollowed={this.changeFollowedUser}
             isFetching={this.props.isFetching}
+            isProgress={this.props.isProgress}
             setIsFetching={() => {this.props.setIsFetching()}}
         />
     }
@@ -73,14 +41,13 @@ const mapStateToProps = (state) => {
         totalPeople: state.peopleData.totalPeople,
         currentPage: state.peopleData.currentPage,
         isFetching: state.peopleData.isFetching,
+        isProgress: state.peopleData.isProgress,
     }
 }
 
 export default connect(mapStateToProps, {
-    changeFollowed: changeFollowedActionCreator,
-    showMore: showMoreActionCreator,
-    setPeople: setPeopleActionCreator,
-    setTotalPeople,
-    setCurrentPage,
-    setIsFetching
+    changeFollowed,
+    setIsFetching,
+    getUsers,
+
 })(UsersContainer);

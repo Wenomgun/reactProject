@@ -1,3 +1,5 @@
+import {api} from "../api/api";
+
 const SET_USER_DATA = 'setUserData';
 
 let initialUserData = {
@@ -18,5 +20,15 @@ export const setUserData = (userData) => ({
     type: SET_USER_DATA,
     data: userData
 });
+
+export const goAuth = () => {
+    return (dispatch) => {
+        api.authMe().then((resp) => {
+            dispatch(setUserData({
+                ...resp.data.data
+            }));
+        });
+    }
+}
 
 export default authReducer;

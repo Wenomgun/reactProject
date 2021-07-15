@@ -1,3 +1,5 @@
+import {api} from "../api/api";
+
 const SET_PROFILE_DATA = 'setProfileData';
 
 let initialProfileData = {
@@ -22,5 +24,13 @@ export const setProfileData = (profileData) => ({
     type: SET_PROFILE_DATA,
     data: profileData
 });
+
+export const getProfileData = (id = 18314) => {
+    return (dispatch) => {
+        api.getUserProfile(id).then((data) => {
+            dispatch(setProfileData(data));
+        });
+    }
+}
 
 export default profileReducer;

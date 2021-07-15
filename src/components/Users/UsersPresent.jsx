@@ -24,7 +24,7 @@ let UsersPresent = (props) => {
                             </NavLink>
                         </div>
                         <div>
-                            <button onClick={() => {props.changeFollowed(user)}}
+                            <button disabled={props.isProgress} onClick={() => {props.changeFollowed(user)}}
                                     className={user.followed ? classes.isNotFollowed : classes.isFollowed}>
                                 {user.followed ? 'Отписаться' : 'Подписаться'}
                             </button>
