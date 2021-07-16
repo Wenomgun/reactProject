@@ -6,5 +6,10 @@
 
 .profileInfo {
     display: flex;
+    flex-direction: column;
+}
+
+.profileAvaBlock {
+    display: flex;
     flex-direction: row;
 }

@@ -1,6 +1,7 @@
 import {api} from "../api/api";
 
 const SET_PROFILE_DATA = 'setProfileData';
+const SET_PROFILE_STATUS = 'setProfileStatus';
 
 let initialProfileData = {
     profileData: null,
@@ -8,13 +9,18 @@ let initialProfileData = {
         {fio: 'Makar Makarov', post: 'Высота блока с горизонтальной полосой прокрутки увеличивается на высоту скролбара, хотя по спецификации CSS заданные размеры должны',  date: new Date(), likes: 4, userId: 1, photoUser: 'https://image.freepik.com/free-vector/mans-head-avatar-vector_83738-354.jpg'},
         {fio: 'Makar Makarov', post: 'Высота блока с горизонтальной полосой прокрутки увеличивается на высоту скролбара, хотя по спецификации CSS заданные размеры должны', date: new Date(), likes: 2, userId: 1, photoUser: 'https://image.freepik.com/free-vector/mans-head-avatar-vector_83738-354.jpg'},
         {fio: 'Ivan Ivanov', post: 'Высота блока с горизонтальной полосой прокрутки увеличивается на высоту скролбара, хотя по спецификации CSS заданные размеры должны', date: new Date(), likes: 2, userId: 2, photoUser: 'https://png.clipart.me/istock/previews/4090/40905468-single-vector-male-avatar.jpg'}
-    ]
+    ],
+    status: ''
 }
 
 const profileReducer = (state = initialProfileData, action) => {
     if (action.type === SET_PROFILE_DATA) {
         return {
             ...state, profileData: action.data
+        };
+    } else if (action.type === SET_PROFILE_STATUS) {
+        return {
+            ...state, status: action.data || 'Изменить статус'
         };
     }
     return state;
@@ -25,10 +31,31 @@ export const setProfileData = (profileData) => ({
     data: profileData
 });
 
+export const setProfileStatus = (profileStatus) => ({
+    type: SET_PROFILE_STATUS,
+    data: profileStatus
+});
+
 export const getProfileData = (id = 18314) => {
     return (dispatch) => {
         api.getUserProfile(id).then((data) => {
             dispatch(setProfileData(data));
+        });
+    }
+}
+
+export const getProfileStatus = (id = 18314) => {
+    return (dispatch) => {
+        api.getProfileStatus(id).then((data) => {
+            dispatch(setProfileStatus(data));
+        });
+    }
+}
+
+export const setProfileStatusThunk = (status) => {
+    return (dispatch) => {
+        api.changeProfileStatus(status).then((data) => {
+            dispatch(setProfileStatus(status));
         });
     }
 }

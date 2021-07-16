@@ -29,5 +29,18 @@ export const api = {
     getUserProfile: (userId) => {
         return axiosInst.get(`/profile/${userId}`)
             .then((resp) => resp.data);
+    },
+    getProfileStatus: (userId) => {
+        return axiosInst.get(`/profile/status/${userId}`)
+            .then((resp) => {
+                return resp.data
+            });
+    },
+    changeProfileStatus: (status) => {
+        return axiosInst.put(`/profile/status`, {
+            status
+        }).then((resp) => {
+                return resp.data
+            });
     }
 }
