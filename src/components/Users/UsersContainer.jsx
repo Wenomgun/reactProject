@@ -4,6 +4,8 @@ import {
     changeFollowed, getUsers, setIsFetching
 } from "../../Redux/People-reducer";
 import UsersPresent from "./UsersPresent";
+import {authRedirectContainer} from "../hoc/authRedirectContainer";
+import {compose} from "redux";
 
 class UsersContainer extends React.Component {
 
@@ -45,9 +47,11 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {
-    changeFollowed,
-    setIsFetching,
-    getUsers,
-
-})(UsersContainer);
+export default compose(
+    connect(mapStateToProps, {
+        changeFollowed,
+        setIsFetching,
+        getUsers
+    }),
+    authRedirectContainer
+)(UsersContainer);

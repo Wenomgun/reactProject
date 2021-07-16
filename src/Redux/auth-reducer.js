@@ -10,7 +10,7 @@ let initialUserData = {
 const authReducer = (state = initialUserData, action) => {
     if (action.type === SET_USER_DATA) {
         return {
-            ...state, userData: {...action.data}, isAuth: true
+            ...state, userData: {...action.data}, isAuth: !!action.data.email
         };
     }
     return state;
