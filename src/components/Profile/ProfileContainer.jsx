@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from "react-redux";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import Posts from "./Posts/Posts";
 import {getProfileData, getProfileStatus, setProfileStatusThunk} from "../../Redux/Profile-reducer";
-import {Redirect, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {authRedirectContainer} from "../hoc/authRedirectContainer";
 import {compose} from "redux";
+import PostsContainer from "./Posts/PostsContainer";
 
 class ProfileContainer extends React.Component {
 
@@ -21,7 +21,7 @@ class ProfileContainer extends React.Component {
                          status={this.props.status}
             >
             </ProfileInfo>
-            <Posts postData={this.props.postData}></Posts>
+            <PostsContainer postData={this.props.postData}></PostsContainer>
         </div>
     }
 }

@@ -11,10 +11,7 @@ class HeaderContainer extends React.Component {
 
     render() {
         return <div className={classes.header}>
-            <div>
-                Logo
-            </div>
-            {this.props.userData.email ? <div>Logout</div> : <Header></Header> }
+            <Header></Header>
         </div>
     }
 

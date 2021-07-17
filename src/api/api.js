@@ -26,6 +26,17 @@ export const api = {
     authMe: () => {
         return axiosInst.get('/auth/me');
     },
+    authLogin: (loginData) => {
+        return axiosInst.post('/auth/login', {
+            email: loginData.email,
+            password: loginData.password,
+            rememberMe: loginData.rememberMe,
+            captcha: loginData.captcha
+        });
+    },
+    authLogout: () => {
+        return axiosInst.delete('/auth/login');
+    },
     getUserProfile: (userId) => {
         return axiosInst.get(`/profile/${userId}`)
             .then((resp) => resp.data);

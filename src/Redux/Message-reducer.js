@@ -1,3 +1,4 @@
+const ADD_MESSAGE = 'addMessage';
 
 let initialMessages = [
     {text: 'Hi, how are you?', userId: '1', date: new Date(), fromMe: true},
@@ -8,17 +9,16 @@ let initialMessages = [
     {text: 'Moscow', userId: '2', date: new Date(), fromMe: false},
 ];
 
-const messageeReducer = (state = initialMessages, action) => {
-    let newState = [...state];
-    if (action.type === 'add-msg') {
-        newState.push(action.data);
+const messageReducer = (state = initialMessages, action) => {
+    if (action.type === ADD_MESSAGE) {
+        state = [...state, {...action.data}];
     }
 
-    return newState;
+    return state;
 }
 export const addMsgActionCreator = (data) => ({
-    type: 'add-msg',
+    type: ADD_MESSAGE,
     data: data
 });
 
-export default messageeReducer;
+export default messageReducer;
