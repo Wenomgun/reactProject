@@ -1,18 +1,36 @@
 import {Field, reduxForm} from "redux-form";
 import {connect} from "react-redux";
 import {goLogin, goOutLogin} from "../../Redux/auth-reducer";
+import {TextField} from "../Common/TextField";
+import {maxLengthValue, requiredField} from "../../utils/validators/validators";
+
+const maxLength = maxLengthValue(40);
 
 const LoginForm = (props) =>{
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field name={'login'} placeholder={'Login'} component={'input'}/>
+                <Field name={'login'}
+                       placeholder={'Login'}
+                       component={TextField}
+                       isInput={true}
+                       validate={[requiredField, maxLength]}
+                />
             </div>
             <div>
-                <Field name={'pass'}  placeholder={'Password'} component={'input'}/>
+                <Field name={'pass'}
+                       placeholder={'Password'}
+                       component={TextField}
+                       type={'password'}
+                       isInput={true}
+                       validate={[requiredField, maxLength]}
+                />
             </div>
             <div>
-                <Field name={'rememberMe'}  type={'checkbox'} component={'input'}/> Remember me
+                <Field name={'rememberMe'}
+                       type={'checkbox'}
+                       component={'input'}
+                /> Remember me
             </div>
             <div>
                 <button>Login</button>
@@ -29,6 +47,7 @@ const Login = (props) => {
            rememberMe: formData.rememberMe,
            captcha: true
        });
+
     }
 
     const logout = () => {

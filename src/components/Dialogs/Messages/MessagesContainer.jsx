@@ -6,13 +6,19 @@ import {compose} from "redux";
 import classes from './Messages.module.css'
 import {Field, reduxForm} from "redux-form";
 import Message from "./Message/Message";
+import {requiredField} from '../../../utils/validators/validators'
+import {TextField} from "../../Common/TextField";
 
 const messageForm = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div className={classes.messageArea}>
                 <div>
-                    <Field name={'messageText'} component={'textarea'} placeholder={'Введите сообщение'}/>
+                    <Field name={'messageText'}
+                           component={TextField}
+                           placeholder={'Введите сообщение'}
+                           validate={[requiredField]}
+                    />
                 </div>
                 <div>
                     <button>Отправить</button>
