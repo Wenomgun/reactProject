@@ -8,7 +8,7 @@ let initialDialogs = [
     {name: 'Ghost', userId: '6'},
 ];
 
-const dialogsReducer = (state = initialDialogs, action) => {
+const dialogsReducer = (state = initialDialogs, action: any) => {
 
     return state;
 }

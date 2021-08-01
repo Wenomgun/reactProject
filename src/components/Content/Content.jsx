@@ -1,4 +1,3 @@
-import Profile from "../Profile/Profile";
 import classes from './Content.module.css'
 import Dialogs from "../Dialogs/Dialogs";
 import {Route, Switch} from "react-router-dom";
@@ -7,13 +6,14 @@ import Music from "../Music/Music";
 import Setting from "../Setting/Setting";
 import UsersContainer from "../Users/UsersContainer";
 import Login from "../Login/Login";
+import ProfileContainer from "../Profile/ProfileContainer";
 
 const Content = (props) =>{
     return (
         <div className={classes.content}>
             <Switch>
                 <Route path="/profile/:userId?">
-                    <Profile></Profile>
+                    <ProfileContainer></ProfileContainer>
                 </Route>
                 <Route path="/people">
                     <UsersContainer></UsersContainer>

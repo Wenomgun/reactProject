@@ -4,7 +4,6 @@ import Information from "./Information/Information";
 import Reloader from "../../Common/Reloader";
 import Avatar from "../../Common/Avatar";
 import Status from "../Status/Status";
-import {setProfileStatusThunk} from "../../../Redux/Profile-reducer";
 
 class ProfileInfo extends React.Component {
 

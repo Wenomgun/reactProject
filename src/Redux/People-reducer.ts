@@ -8,16 +8,28 @@ const SET_CURRENT_PAGE = 'setCurrentPage';
 const SET_IS_FETCHING = 'setIsFetching';
 const SET_IS_PROGRESS = 'setIsProgress';
 
+export type ChangeFollowAction = { type: typeof CHANGE_FOLLOW; data?: any; }
+export type ShowMoreAction = { type: typeof SHOW_MORE; data?: any; }
+export type SetPeopleAction = { type: typeof SET_PEOPLE; data?: any; }
+export type SetTotalPeopleAction = { type: typeof SET_TOTAL_PEOPLE; data?: any; }
+export type SetCurrentPageAction = { type: typeof SET_CURRENT_PAGE; data?: any; }
+export type SetIsFetchingAction = { type: typeof SET_IS_FETCHING; data?: any; }
+export type SetIsProgressAction = { type: typeof SET_IS_PROGRESS; data?: any; }
+
 let initialState = {
-    peopleData: [],
-    pageSize: 3,
-    totalPeople: 0,
-    currentPage: 1,
-    isFetching: false,
-    isProgress: false,
+    peopleData: [] as any[],
+    pageSize: 3 as number,
+    totalPeople: 0 as number,
+    currentPage: 1 as number,
+    isFetching: false as boolean,
+    isProgress: false as boolean,
 };
 
-const peopleReducer = (state = initialState, action) => {
+type InitialStatePeople = typeof initialState;
+type PeopleAction = ChangeFollowAction | ShowMoreAction | SetPeopleAction | SetTotalPeopleAction
+    | SetCurrentPageAction | SetIsFetchingAction | SetIsProgressAction;
+
+const peopleReducer = (state: InitialStatePeople = initialState, action: PeopleAction) => {
     if (action.type === CHANGE_FOLLOW) {
         let userDataAction = action.data;
 
@@ -46,43 +58,43 @@ const peopleReducer = (state = initialState, action) => {
     return state;
 }
 
-export const changeFollowedActionCreator = (userID) => ({
+export const changeFollowedActionCreator = (userID: any): ChangeFollowAction => ({
     type: CHANGE_FOLLOW,
     data: userID
 });
 
-export const setPeopleActionCreator = (people) => ({
+export const setPeopleActionCreator = (people: any): SetPeopleAction => ({
     type: SET_PEOPLE,
     data: people
 });
 
-export const showMoreActionCreator = (people) => ({
+export const showMoreActionCreator = (people: any): ShowMoreAction => ({
     type: SHOW_MORE,
     data: people
 });
 
-export const setTotalPeople = (count) => ({
+export const setTotalPeople = (count: any): SetTotalPeopleAction => ({
     type: SET_TOTAL_PEOPLE,
     data: count
 });
 
-export const setCurrentPage = (page) => ({
+export const setCurrentPage = (page: any): SetCurrentPageAction => ({
     type: SET_CURRENT_PAGE,
     data: page
 });
 
-export const setIsFetching = (isFetching) => ({
+export const setIsFetching = (isFetching: any): SetIsFetchingAction => ({
     type: SET_IS_FETCHING,
     data: isFetching
 });
 
-export const setIsProgress = (isProgress) => ({
+export const setIsProgress = (isProgress: any): SetIsProgressAction => ({
     type: SET_IS_PROGRESS,
     data: isProgress
 });
 
 export const getUsers = (page = 1) => {
-    return (dispatch) => {
+    return (dispatch: any) => {
         dispatch(setCurrentPage(page));
         dispatch(setIsFetching(true));
         api.getUsers(page).then((data) => {
@@ -95,8 +107,8 @@ export const getUsers = (page = 1) => {
     }
 }
 
-export const changeFollowed = (user) => {
-    return (dispatch) => {
+export const changeFollowed = (user: any) => {
+    return (dispatch: any) => {
         const newUser = {...user, isFollowed: user.followed};
         dispatch(setIsProgress(true));
         api.changedFollowed(user.id, user.followed).then((resp) => {

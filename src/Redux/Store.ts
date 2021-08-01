@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers} from "redux";
+import {applyMiddleware, combineReducers, compose} from "redux";
 import {reducer as formReducer} from 'redux-form';
 import {default as thunk} from 'redux-thunk'
 import messageReducer from "./Message-reducer";
@@ -7,6 +7,7 @@ import peopleReducer from "./People-reducer";
 import profileReducer from "./Profile-reducer";
 import authReducer from "./auth-reducer";
 import postReducer from "./Post-reducer";
+import {composeWithDevTools} from "redux-devtools-extension";
 const {createStore} = require("redux");
 
 let reducers = combineReducers({
@@ -19,6 +20,6 @@ let reducers = combineReducers({
     form: formReducer,
 });
 
-let Store = createStore(reducers, applyMiddleware(thunk));
+let Store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
 
 export default Store;

@@ -6,6 +6,13 @@ import {
 import UsersPresent from "./UsersPresent";
 import {authRedirectContainer} from "../hoc/authRedirectContainer";
 import {compose} from "redux";
+import {
+    selectCurrentPage,
+    selectIsFetching,
+    selectIsProgress,
+    selectPageSize,
+    selectPeopleData, selectTotalPeople
+} from "../../Redux/users-selectors";
 
 class UsersContainer extends React.Component {
 
@@ -38,12 +45,12 @@ class UsersContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        peopleData: state.peopleData.peopleData,
-        pageSize: state.peopleData.pageSize,
-        totalPeople: state.peopleData.totalPeople,
-        currentPage: state.peopleData.currentPage,
-        isFetching: state.peopleData.isFetching,
-        isProgress: state.peopleData.isProgress,
+        peopleData: selectPeopleData(state),
+        pageSize: selectPageSize(state),
+        totalPeople: selectTotalPeople(state),
+        currentPage: selectCurrentPage(state),
+        isFetching: selectIsFetching(state),
+        isProgress: selectIsProgress(state),
     }
 }
 

@@ -3,17 +3,23 @@ import {api} from "../api/api";
 const SET_PROFILE_DATA = 'setProfileData';
 const SET_PROFILE_STATUS = 'setProfileStatus';
 
+type SetProfileDataAction = { type: typeof SET_PROFILE_DATA; data?: any; }
+type SetProfileStatusAction = { type: typeof SET_PROFILE_STATUS; data?: any; }
+
 let initialProfileData = {
-    profileData: null,
+    profileData: null as any,
     postData: [
         {fio: 'Makar Makarov', post: 'Высота блока с горизонтальной полосой прокрутки увеличивается на высоту скролбара, хотя по спецификации CSS заданные размеры должны',  date: new Date(), likes: 4, userId: 1, photoUser: 'https://image.freepik.com/free-vector/mans-head-avatar-vector_83738-354.jpg'},
         {fio: 'Makar Makarov', post: 'Высота блока с горизонтальной полосой прокрутки увеличивается на высоту скролбара, хотя по спецификации CSS заданные размеры должны', date: new Date(), likes: 2, userId: 1, photoUser: 'https://image.freepik.com/free-vector/mans-head-avatar-vector_83738-354.jpg'},
         {fio: 'Ivan Ivanov', post: 'Высота блока с горизонтальной полосой прокрутки увеличивается на высоту скролбара, хотя по спецификации CSS заданные размеры должны', date: new Date(), likes: 2, userId: 2, photoUser: 'https://png.clipart.me/istock/previews/4090/40905468-single-vector-male-avatar.jpg'}
-    ],
-    status: ''
+    ] as any[],
+    status: '' as string | null
 }
 
-const profileReducer = (state = initialProfileData, action) => {
+type InitialProfile = typeof initialProfileData;
+type ProfileAction = SetProfileDataAction | SetProfileStatusAction;
+
+const profileReducer = (state: InitialProfile = initialProfileData, action: ProfileAction) => {
     if (action.type === SET_PROFILE_DATA) {
         return {
             ...state, profileData: action.data
@@ -26,34 +32,34 @@ const profileReducer = (state = initialProfileData, action) => {
     return state;
 }
 
-export const setProfileData = (profileData) => ({
+export const setProfileData = (profileData: any): SetProfileDataAction => ({
     type: SET_PROFILE_DATA,
     data: profileData
 });
 
-export const setProfileStatus = (profileStatus) => ({
+export const setProfileStatus = (profileStatus: any): SetProfileStatusAction => ({
     type: SET_PROFILE_STATUS,
     data: profileStatus
 });
 
-export const getProfileData = (id = 18314) => {
-    return (dispatch) => {
+export const getProfileData = (id: number) => {
+    return (dispatch: (arg0: SetProfileDataAction) => void) => {
         api.getUserProfile(id).then((data) => {
             dispatch(setProfileData(data));
         });
     }
 }
 
-export const getProfileStatus = (id = 18314) => {
-    return (dispatch) => {
+export const getProfileStatus = (id: number) => {
+    return (dispatch: (arg0: SetProfileStatusAction) => void) => {
         api.getProfileStatus(id).then((data) => {
             dispatch(setProfileStatus(data));
         });
     }
 }
 
-export const setProfileStatusThunk = (status) => {
-    return (dispatch) => {
+export const setProfileStatusThunk = (status: string) => {
+    return (dispatch: (arg0: SetProfileStatusAction) => void) => {
         api.changeProfileStatus(status).then((data) => {
             dispatch(setProfileStatus(status));
         });

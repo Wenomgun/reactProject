@@ -6,12 +6,23 @@ import {withRouter} from 'react-router-dom';
 import {authRedirectContainer} from "../hoc/authRedirectContainer";
 import {compose} from "redux";
 import PostsContainer from "./Posts/PostsContainer";
+import {goAuth} from "../../Redux/auth-reducer";
+import {selectPostData, selectProfileData, selectStatus} from "../../Redux/profile-selectors";
 
 class ProfileContainer extends React.Component {
 
     componentDidMount() {
-        this.props.getProfileData(this.props.match.params.userId);
-        this.props.getProfileStatus(this.props.match.params.userId);
+        const userId = this.props.match.params.userId;
+        if (userId) {
+            this.props.getProfileData(this.props.match.params.userId);
+            this.props.getProfileStatus(this.props.match.params.userId);
+        } else {
+            this.props.goAuth().then((resp) => {
+                const userId = resp.data.data.id;
+                this.props.getProfileData(userId);
+                this.props.getProfileStatus(userId);
+            });
+        }
     }
 
     render() {
@@ -28,14 +39,14 @@ class ProfileContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        profileData: state.profileData.profileData,
-        postData: state.profileData.postData,
-        status: state.profileData.status,
+        profileData: selectProfileData(state),
+        postData: selectPostData(state),
+        status: selectStatus(state),
     }
 }
 
 export default compose(
-        connect(mapStateToProps, {getProfileData, getProfileStatus, setProfileStatusThunk}),
+        connect(mapStateToProps, {getProfileData, getProfileStatus, setProfileStatusThunk, goAuth}),
         authRedirectContainer,
-        withRouter
+        withRouter,
     )(ProfileContainer);

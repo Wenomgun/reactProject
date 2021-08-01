@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {goLogin, goOutLogin} from "../../Redux/auth-reducer";
 import {TextField} from "../Common/TextField";
 import {maxLengthValue, requiredField} from "../../utils/validators/validators";
+import {Redirect} from "react-router-dom";
+import {selectIsAuth} from "../../Redux/auth-selectors";
 
 const maxLength = maxLengthValue(40);
 
@@ -47,7 +49,6 @@ const Login = (props) => {
            rememberMe: formData.rememberMe,
            captcha: true
        });
-
     }
 
     const logout = () => {
@@ -77,7 +78,7 @@ const Login = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        isAuth: state.userData.isAuth
+        isAuth: selectIsAuth(state)
     }
 }
 
