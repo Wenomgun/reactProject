@@ -1,4 +1,4 @@
-const ADD_MESSAGE = 'addMessage';
+const ADD_MESSAGE = 'message/addMessage';
 
 type MessageActionType = {
     type: typeof ADD_MESSAGE;

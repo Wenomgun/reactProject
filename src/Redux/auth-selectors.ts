@@ -1,5 +1,5 @@
-import {InitialUserData} from "./auth-reducer";
+import {AllStateType} from "./Store";
 
-export const selectIsAuth = (state: InitialUserData) => {
+export const selectIsAuth = (state: AllStateType) => {
     return state.userData.isAuth;
 }

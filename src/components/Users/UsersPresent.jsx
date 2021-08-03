@@ -4,18 +4,25 @@ import {NavLink} from "react-router-dom";
 import Reloader from "../Common/Reloader";
 import Avatar from "../Common/Avatar";
 
-let UsersPresent = (props) => {
-    let pagesCount = Math.ceil(props.totalPeople / props.pageSize);
+let UsersPresent = ({totalPeople, 
+                        pageSize,
+                        isFetching,
+                        peopleData,
+                        isProgress,
+                        changeFollowed,
+                        changePageHandler,
+                        currentPage}) => {
+    let pagesCount = Math.ceil(totalPeople / pageSize);
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
     }
 
     const renderData = () => {
-        if (props.isFetching) {
+        if (isFetching) {
             return <Reloader></Reloader>
         } else {
-            return props.peopleData.map((user) => {
+            return peopleData.map((user) => {
                 return <div key={user.id} className={classes.peopleWrap}>
                     <div className={classes.photoWrap}>
                         <div>
@@ -24,7 +31,7 @@ let UsersPresent = (props) => {
                             </NavLink>
                         </div>
                         <div>
-                            <button disabled={props.isProgress} onClick={() => {props.changeFollowed(user)}}
+                            <button disabled={isProgress} onClick={() => {changeFollowed(user)}}
                                     className={user.followed ? classes.isNotFollowed : classes.isFollowed}>
                                 {user.followed ? 'Отписаться' : 'Подписаться'}
                             </button>
@@ -47,8 +54,8 @@ let UsersPresent = (props) => {
     return <div className={classes.people}>
         <div className={classes.paginator}>
             {pages.map((page) => {
-                return <div key={page} onClick={() => { props.changePageHandler(page)} }
-                            className={[props.currentPage === page ? classes.currentPage : '', classes.page].join(' ')}
+                return <div key={page} onClick={() => { changePageHandler(page)} }
+                            className={[currentPage === page ? classes.currentPage : '', classes.page].join(' ')}
                 >{page}</div>
             })}
         </div>

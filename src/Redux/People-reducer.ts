@@ -1,12 +1,12 @@
 import {api} from "../api/api";
 
-const CHANGE_FOLLOW = 'changeFollowed';
-const SHOW_MORE = 'showMore';
-const SET_PEOPLE = 'setPeople';
-const SET_TOTAL_PEOPLE = 'setTotalPeople';
-const SET_CURRENT_PAGE = 'setCurrentPage';
-const SET_IS_FETCHING = 'setIsFetching';
-const SET_IS_PROGRESS = 'setIsProgress';
+const CHANGE_FOLLOW = 'people/changeFollowed';
+const SHOW_MORE = 'people/showMore';
+const SET_PEOPLE = 'people/setPeople';
+const SET_TOTAL_PEOPLE = 'people/setTotalPeople';
+const SET_CURRENT_PAGE = 'people/setCurrentPage';
+const SET_IS_FETCHING = 'people/setIsFetching';
+const SET_IS_PROGRESS = 'people/setIsProgress';
 
 export type ChangeFollowAction = { type: typeof CHANGE_FOLLOW; data?: any; }
 export type ShowMoreAction = { type: typeof SHOW_MORE; data?: any; }
@@ -25,37 +25,33 @@ let initialState = {
     isProgress: false as boolean,
 };
 
-type InitialStatePeople = typeof initialState;
+export type InitialStatePeople = typeof initialState;
 type PeopleAction = ChangeFollowAction | ShowMoreAction | SetPeopleAction | SetTotalPeopleAction
     | SetCurrentPageAction | SetIsFetchingAction | SetIsProgressAction;
 
-const peopleReducer = (state: InitialStatePeople = initialState, action: PeopleAction) => {
-    if (action.type === CHANGE_FOLLOW) {
-        let userDataAction = action.data;
+const peopleReducer = (state: InitialStatePeople = initialState, action: PeopleAction): InitialStatePeople => {
 
-        return {
-            ...state,
-            peopleData: state.peopleData.map((user) => {
-                if (userDataAction.id !== user.id) {
-                    return user;
-                }
-                return {...user, followed: !user.followed, isFollowed: !user.followed}
-            })
-        };
-    } else if (action.type === SHOW_MORE) {
-        return {...state, peopleData: [...state.peopleData, ...action.data]};
-    } else if (action.type === SET_PEOPLE) {
-        return {...state, peopleData: [...action.data]};
-    } else if (action.type === SET_TOTAL_PEOPLE) {
-        return {...state, totalPeople: action.data};
-    } else if (action.type === SET_CURRENT_PAGE) {
-        return {...state, currentPage: action.data};
-    } else if (action.type === SET_IS_FETCHING) {
-        return {...state, isFetching: action.data};
-    } else if (action.type === SET_IS_PROGRESS) {
-        return {...state, isProgress: action.data};
+    switch (action.type) {
+        case CHANGE_FOLLOW: {
+            let userDataAction = action.data;
+            return {
+                ...state,
+                peopleData: state.peopleData.map((user) => {
+                    if (userDataAction.id !== user.id) {
+                        return user;
+                    }
+                    return {...user, followed: !user.followed, isFollowed: !user.followed}
+                })
+            };
+        }
+        case SHOW_MORE: return {...state, peopleData: [...state.peopleData, ...action.data]};
+        case SET_PEOPLE: return {...state, peopleData: [...action.data]};
+        case SET_TOTAL_PEOPLE: return {...state, totalPeople: action.data};
+        case SET_CURRENT_PAGE: return {...state, currentPage: action.data};
+        case SET_IS_FETCHING: return {...state, isFetching: action.data};
+        case SET_IS_PROGRESS: return {...state, isProgress: action.data};
+        default: return state
     }
-    return state;
 }
 
 export const changeFollowedActionCreator = (userID: any): ChangeFollowAction => ({
@@ -94,29 +90,27 @@ export const setIsProgress = (isProgress: any): SetIsProgressAction => ({
 });
 
 export const getUsers = (page = 1) => {
-    return (dispatch: any) => {
+    return async (dispatch: any) => {
         dispatch(setCurrentPage(page));
         dispatch(setIsFetching(true));
-        api.getUsers(page).then((data) => {
-            if (!data.error) {
-                dispatch(setTotalPeople(data.totalCount));
-                dispatch(setPeopleActionCreator(data.items));
-                dispatch(setIsFetching(false));
-            }
-        });
+        const data = await api.getUsers(page);
+        if (!data.error) {
+            dispatch(setTotalPeople(data.totalCount));
+            dispatch(setPeopleActionCreator(data.items));
+            dispatch(setIsFetching(false));
+        }
     }
 }
 
 export const changeFollowed = (user: any) => {
-    return (dispatch: any) => {
+    return async (dispatch: any) => {
         const newUser = {...user, isFollowed: user.followed};
         dispatch(setIsProgress(true));
-        api.changedFollowed(user.id, user.followed).then((resp) => {
-            if (resp.data.resultCode === 0) {
-                dispatch(changeFollowedActionCreator(newUser));
-                dispatch(setIsProgress(false));
-            }
-        });
+        const resp = await api.changedFollowed(user.id, user.followed);
+        if (resp.data.resultCode === 0) {
+            dispatch(changeFollowedActionCreator(newUser));
+            dispatch(setIsProgress(false));
+        }
     }
 }
 

@@ -5,7 +5,13 @@ import Reloader from "../../Common/Reloader";
 import Avatar from "../../Common/Avatar";
 import Status from "../Status/Status";
 
-class ProfileInfo extends React.Component {
+type ProfileInfoPropsType = {
+    profileData: any;
+    status: string;
+    setProfileStatusThunk: Function;
+}
+
+class ProfileInfo extends React.PureComponent<ProfileInfoPropsType> {
 
     render() {
         if (!this.props.profileData) {

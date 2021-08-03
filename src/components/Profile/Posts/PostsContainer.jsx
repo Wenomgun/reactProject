@@ -8,9 +8,9 @@ import {TextField} from "../../Common/TextField";
 
 const validLength = maxLengthValue(100);
 
-const PostForm = (props) => {
+const PostForm = React.memo(({handleSubmit}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <div>
                     <Field name={'postText'}
@@ -25,7 +25,7 @@ const PostForm = (props) => {
             </div>
         </form>
     )
-}
+})
 
 const PostReduxForm = reduxForm({
     form: 'postForm'

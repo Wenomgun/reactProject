@@ -1,8 +1,8 @@
 import {api} from "../api/api";
 import {stopSubmit} from "redux-form";
 
-const SET_USER_DATA = 'setUserData';
-const SET_IS_AUTH = 'setIsAuth';
+const SET_USER_DATA = 'auth/setUserData';
+const SET_IS_AUTH = 'auth/setIsAuth';
 
 type SetUserDataAction = {
     type: typeof SET_USER_DATA;
@@ -74,12 +74,11 @@ export const goLogin = (loginData: any) => {
 }
 
 export const goOutLogin = () => {
-    return (dispatch: (arg0: SetIsAuthAction) => void) => {
-        api.authLogout().then((resp) => {
-            if (resp.data.resultCode === 0) {
-                dispatch(setIsAuth(0));
-            }
-        });
+    return async (dispatch: (arg0: SetIsAuthAction) => void) => {
+        const resp = await api.authLogout();
+        if (resp.data.resultCode === 0) {
+            dispatch(setIsAuth(0));
+        }
     }
 }
 

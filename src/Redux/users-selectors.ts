@@ -1,23 +1,25 @@
-export const selectPeopleData = (state: any) => {
+import {AllStateType} from "./Store";
+
+export const selectPeopleData = (state: AllStateType) => {
     return state.peopleData.peopleData;
 }
 
-export const selectPageSize = (state: any) => {
+export const selectPageSize = (state: AllStateType) => {
     return state.peopleData.pageSize;
 }
 
-export const selectTotalPeople = (state: any) => {
+export const selectTotalPeople = (state: AllStateType) => {
     return state.peopleData.totalPeople;
 }
 
-export const selectCurrentPage = (state: any) => {
+export const selectCurrentPage = (state: AllStateType) => {
     return state.peopleData.currentPage;
 }
 
-export const selectIsFetching = (state: any) => {
+export const selectIsFetching = (state: AllStateType) => {
     return state.peopleData.isFetching;
 }
 
-export const selectIsProgress = (state: any) => {
+export const selectIsProgress = (state: AllStateType) => {
     return state.peopleData.isProgress;
 }

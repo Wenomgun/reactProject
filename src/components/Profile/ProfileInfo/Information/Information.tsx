@@ -1,7 +1,7 @@
 import classes from './Information.module.css'
+import {FC} from "react";
 
-const Information = (props) =>{
-    const data = props.data;
+const Information: FC<any> = ({data}) =>{
     return (
        <div className={classes.information}>
            <b>{data.fullName}</b>

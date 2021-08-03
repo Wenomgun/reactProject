@@ -7,34 +7,40 @@ import Setting from "../Setting/Setting";
 import UsersContainer from "../Users/UsersContainer";
 import Login from "../Login/Login";
 import ProfileContainer from "../Profile/ProfileContainer";
+import {FC} from "react";
 
-const Content = (props) =>{
+type ContentType = {
+    state: any;
+    dispatch: any;
+}
+
+const Content: FC<ContentType> = ({state, dispatch}): JSX.Element =>{
     return (
         <div className={classes.content}>
             <Switch>
                 <Route path="/profile/:userId?">
-                    <ProfileContainer></ProfileContainer>
+                    <ProfileContainer/>
                 </Route>
                 <Route path="/people">
-                    <UsersContainer></UsersContainer>
+                    <UsersContainer/>
                 </Route>
                 <Route path="/message">
                     <Dialogs
-                        data={props.state}
-                        dispatch={props.dispatch}
-                    ></Dialogs>
+                        data={state}
+                        dispatch={dispatch}
+                        />
                 </Route>
                 <Route path="/news">
-                    <News></News>
+                    <News/>
                 </Route>
                 <Route path="/music">
-                    <Music></Music>
+                    <Music/>
                 </Route>
                 <Route path="/setting">
-                    <Setting></Setting>
+                    <Setting/>
                 </Route>
                 <Route path="/login">
-                    <Login></Login>
+                    <Login/>
                 </Route>
             </Switch>
         </div>

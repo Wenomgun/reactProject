@@ -11,7 +11,7 @@ type StatusState = {
     statusText: string;
 }
 
-class StatusTS extends React.Component<StatusProps, StatusState> {
+class Status extends React.Component<StatusProps, StatusState> {
     public state: StatusState = {
         editMode: false,
         statusText: this.props.status
@@ -53,4 +53,4 @@ class StatusTS extends React.Component<StatusProps, StatusState> {
     }
 }
 
-export default StatusTS;
+export default Status;

@@ -1,14 +1,19 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {connect} from "react-redux";
 import ProfileInfo from "./ProfileInfo";
 
-const mapStateToProps = (state) => {
+type ProfileInfoPropsType = {
+    userInfo: any;
+}
+
+const mapStateToProps: (state: ProfileInfoPropsType) => ProfileInfoPropsType =
+    (state: ProfileInfoPropsType): ProfileInfoPropsType => {
     return {
         userInfo: state.userInfo
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: any) => {
     return {
 
     }

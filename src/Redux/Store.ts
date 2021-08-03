@@ -10,7 +10,7 @@ import postReducer from "./Post-reducer";
 import {composeWithDevTools} from "redux-devtools-extension";
 const {createStore} = require("redux");
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
     messagesData: messageReducer,
     postData: postReducer,
     dialogsData: dialogsReducer,
@@ -19,7 +19,9 @@ let reducers = combineReducers({
     userData: authReducer,
     form: formReducer,
 });
+type RootReducerType = typeof rootReducer;
+export type AllStateType = ReturnType<RootReducerType>
 
-let Store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));
+let Store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 export default Store;

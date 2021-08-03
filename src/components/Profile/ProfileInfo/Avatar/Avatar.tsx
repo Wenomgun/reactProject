@@ -1,14 +1,12 @@
 import classes from './Avatar.module.css'
+import {FC, ReactNode} from "react";
 
-const Avatar = (props) => {
+const Avatar: FC<any> = ({data}) => {
 
-    function renderAvatar(data) {
-        const photos = data && data.photos;
-        const photo = photos.small || photos.large;
-        const simb = data && data.name?.split(' ') || data.fullName?.split(' ');
-        const firstName = simb[0].slice(0, 1);
-        const lastName = simb.length > 1 ? simb[1].slice(0, 1) : '';
-
+    function renderAvatar(data: any): ReactNode {
+        const photo = data.photo;
+        const firstName = data.fullName.split(' ')[0].slice(0, 1);
+        const lastName = data.fullName.split(' ')[1].slice(0, 1);
         if (photo) {
             return (
                 <img src={photo}/>
@@ -22,7 +20,7 @@ const Avatar = (props) => {
         }
     }
 
-    function renderOnline(isOnline) {
+    function renderOnline(isOnline: boolean): ReactNode {
         if (!isOnline) {
             return null;
         }
@@ -34,8 +32,8 @@ const Avatar = (props) => {
 
     return (
        <div className={classes.avatar}>
-           {renderAvatar(props.data)}
-           {renderOnline(props.data.isOnline)}
+           {renderAvatar(data)}
+           {renderOnline(data.isOnline)}
        </div>
     );
 }

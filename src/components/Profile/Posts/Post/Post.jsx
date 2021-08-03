@@ -1,7 +1,6 @@
 import classes from './Post.module.css'
 
-const Post = (props) =>{
-    const data = props.data;
+const Post = ({data}) =>{
     return (
        <div className={classes.post}>
           <div className={classes.userInfo}>

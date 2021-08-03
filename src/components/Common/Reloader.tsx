@@ -1,11 +1,11 @@
 import classes from './Reloader.module.css'
-import React from 'react';
+import React, {FC} from 'react';
 import loading from '../../assets/loading.gif';
 
-let Reloader = () => {
+let Reloader: FC = (): JSX.Element => {
     const urlReloader = loading;
     return <div className={classes.fetchingReloader}>
-        <img src={urlReloader}></img>
+        <img src={urlReloader}/>
     </div>
 }
 

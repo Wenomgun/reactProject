@@ -1,7 +1,7 @@
 import {api} from "../api/api";
 
-const SET_PROFILE_DATA = 'setProfileData';
-const SET_PROFILE_STATUS = 'setProfileStatus';
+const SET_PROFILE_DATA = 'profile/setProfileData';
+const SET_PROFILE_STATUS = 'profile/setProfileStatus';
 
 type SetProfileDataAction = { type: typeof SET_PROFILE_DATA; data?: any; }
 type SetProfileStatusAction = { type: typeof SET_PROFILE_STATUS; data?: any; }
@@ -43,26 +43,23 @@ export const setProfileStatus = (profileStatus: any): SetProfileStatusAction => 
 });
 
 export const getProfileData = (id: number) => {
-    return (dispatch: (arg0: SetProfileDataAction) => void) => {
-        api.getUserProfile(id).then((data) => {
-            dispatch(setProfileData(data));
-        });
+    return async (dispatch: (arg0: SetProfileDataAction) => void) => {
+        const data = await api.getUserProfile(id);
+        dispatch(setProfileData(data));
     }
 }
 
 export const getProfileStatus = (id: number) => {
-    return (dispatch: (arg0: SetProfileStatusAction) => void) => {
-        api.getProfileStatus(id).then((data) => {
-            dispatch(setProfileStatus(data));
-        });
+    return async (dispatch: (arg0: SetProfileStatusAction) => void) => {
+        const data = await api.getProfileStatus(id);
+        dispatch(setProfileStatus(data));
     }
 }
 
 export const setProfileStatusThunk = (status: string) => {
-    return (dispatch: (arg0: SetProfileStatusAction) => void) => {
-        api.changeProfileStatus(status).then((data) => {
-            dispatch(setProfileStatus(status));
-        });
+    return async (dispatch: (arg0: SetProfileStatusAction) => void) => {
+        await api.changeProfileStatus(status);
+        dispatch(setProfileStatus(status));
     }
 }
 
