@@ -4,26 +4,45 @@ import Content from "./components/Content/Content";
 import Footer from "./components/Footer/Footer";
 import {BrowserRouter as Router} from "react-router-dom";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import {Component} from "react";
+import React, {Component} from "react";
+import {Provider} from "react-redux";
+import store from "./Redux/Store";
 
-class App extends Component {
+type AppPropsType = {
+    state?: any;
+    dispatch?: any;
+}
+
+class App extends Component<AppPropsType, any> {
     render() {
         return (
             <div className='app__wrapper'>
                 <Router>
-                    <HeaderContainer></HeaderContainer>
+                    <HeaderContainer/>
                     <div className='app__bodyContent'>
-                        <Navbar></Navbar>
+                        <Navbar/>
                         <Content
                             state={this.props.state}
                             dispatch={this.props.dispatch}
-                        ></Content>
+                            />
                     </div>
-                    <Footer></Footer>
+                    <Footer/>
                 </Router>
             </div>
         );
     }
 }
 
-export default App;
+class MainApp extends Component {
+    render(): JSX.Element {
+        return (
+            <React.StrictMode>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
+            </React.StrictMode>
+        )
+    }
+}
+
+export default MainApp;
