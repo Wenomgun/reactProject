@@ -39,32 +39,6 @@
     padding: 10px;
 }
 
-.currentPage {
-    font-weight: bold;
-}
-
-.paginator {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    height: 65px;
-    overflow: auto;
-}
-
-.page {
-    min-width: 22px;
-    min-height: 20px;
-    text-align: center;
-    cursor: pointer;
-    border: 1px solid;
-    margin: 5px;
-    border-radius: 50%;
-}
-
-.page:hover {
-    background-color: rgba(95, 158, 160, 0.43);
-}
-
 .fetchingReloader {
     display: flex;
     justify-content: center;

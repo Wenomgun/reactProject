@@ -1,11 +1,16 @@
 import classes from './Post.module.css'
+import {FC} from "react";
 
-const Post = ({data}) =>{
+type PostPropsType = {
+    data: any;
+}
+
+const Post: FC<PostPropsType> = ({data}) =>{
     return (
        <div className={classes.post}>
           <div className={classes.userInfo}>
               <div>
-                  <img src={data.photoUser}/>
+                  <img src={data.photoUser} alt={'Фото'}/>
               </div>
               <div>
                   <div>{data.fio}</div>

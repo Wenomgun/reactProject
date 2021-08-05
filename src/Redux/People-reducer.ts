@@ -18,7 +18,7 @@ export type SetIsProgressAction = { type: typeof SET_IS_PROGRESS; data?: any; }
 
 let initialState = {
     peopleData: [] as any[],
-    pageSize: 3 as number,
+    pageSize: 10 as number,
     totalPeople: 0 as number,
     currentPage: 1 as number,
     isFetching: false as boolean,

@@ -1,10 +1,23 @@
 import classes from './Users.module.css'
-import React from 'react';
+import React, {FC} from 'react';
 import {NavLink} from "react-router-dom";
 import Reloader from "../Common/Reloader";
 import Avatar from "../Common/Avatar";
+import Paginator from "../Common/Paginator";
 
-let UsersPresent = ({totalPeople, 
+export type UserPresentPropsType = {
+    totalPeople: number;
+    pageSize: number;
+    currentPage: number;
+    isFetching: boolean;
+    isProgress: boolean;
+    peopleData: any;
+    changeFollowed: Function;
+    changePageHandler: Function;
+    setIsFetching: Function;
+}
+
+let UsersPresent: FC<UserPresentPropsType> = ({totalPeople,
                         pageSize,
                         isFetching,
                         peopleData,
@@ -12,22 +25,16 @@ let UsersPresent = ({totalPeople,
                         changeFollowed,
                         changePageHandler,
                         currentPage}) => {
-    let pagesCount = Math.ceil(totalPeople / pageSize);
-    let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
-    }
-
     const renderData = () => {
         if (isFetching) {
-            return <Reloader></Reloader>
+            return <Reloader/>
         } else {
-            return peopleData.map((user) => {
+            return peopleData.map((user: any) => {
                 return <div key={user.id} className={classes.peopleWrap}>
                     <div className={classes.photoWrap}>
                         <div>
                             <NavLink to={`/profile/${user.id}`} >
-                                <Avatar data={user}></Avatar>
+                                <Avatar data={user}/>
                             </NavLink>
                         </div>
                         <div>
@@ -52,13 +59,10 @@ let UsersPresent = ({totalPeople,
     }
 
     return <div className={classes.people}>
-        <div className={classes.paginator}>
-            {pages.map((page) => {
-                return <div key={page} onClick={() => { changePageHandler(page)} }
-                            className={[currentPage === page ? classes.currentPage : '', classes.page].join(' ')}
-                >{page}</div>
-            })}
-        </div>
+        <Paginator totalItem={totalPeople}
+                   pageSize={pageSize}
+                   currentPage={currentPage}
+                   changePageHandler={changePageHandler}/>
         {
             renderData()
         }

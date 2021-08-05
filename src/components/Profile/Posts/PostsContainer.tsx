@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {connect} from "react-redux";
 import Post from "./Post/Post";
 import {Field, reduxForm} from "redux-form";
@@ -8,9 +8,13 @@ import {TextField} from "../../Common/TextField";
 
 const validLength = maxLengthValue(100);
 
-const PostForm = React.memo(({handleSubmit}) => {
+type PostFormPropsType = {
+    handleSubmit: Function;
+}
+
+const PostForm: FC<PostFormPropsType> = React.memo(({handleSubmit}) => {
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit as any}>
             <div>
                 <div>
                     <Field name={'postText'}
@@ -29,10 +33,10 @@ const PostForm = React.memo(({handleSubmit}) => {
 
 const PostReduxForm = reduxForm({
     form: 'postForm'
-})(PostForm);
+})(PostForm as any);
 
-class Posts extends React.Component {
-    submit = (formData) => {
+class Posts extends React.Component<any, any> {
+    submit = (formData: { postText: any; }) => {
         let newPost = {
             fio: 'Makar Makarov',
             post: formData.postText,
@@ -47,24 +51,24 @@ class Posts extends React.Component {
     render() {
         return (
             <div>
-                <PostReduxForm onSubmit={this.submit}></PostReduxForm>
-                {this.props.postsData.map((item, i) =>
-                    <Post key={i} data={item}></Post>
+                <PostReduxForm onSubmit={this.submit as any}/>
+                {this.props.postsData.map((item: any, i: number) =>
+                    <Post key={i} data={item}/>
                 )}
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
     return {
         postsData: state.postData
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: any) => {
     return {
-        addPost: (newPost) => {
+        addPost: (newPost: any) => {
             dispatch(addPostActionCreator(newPost));
         }
     }

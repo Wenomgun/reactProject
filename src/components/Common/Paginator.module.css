@@ -1,0 +1,43 @@
+.currentPage {
+    font-weight: bold;
+}
+
+.paginator {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 38px;
+    overflow: auto;
+}
+
+.page {
+    min-width: 22px;
+    min-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid;
+    margin: 5px;
+    border-radius: 50%;
+}
+
+.page:hover {
+    background-color: rgba(95, 158, 160, 0.43);
+}
+
+.rightArrow,
+.leftArrow {
+    width: 20px;
+    height: 20px;
+}
+
+.rightArrow:hover,
+.leftArrow:hover {
+    cursor: pointer;
+}
+
+.wrapRightArrow,
+.wrapLeftArrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
