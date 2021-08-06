@@ -53,5 +53,16 @@ export const api = {
         }).then((resp) => {
                 return resp.data
             });
+    },
+    changeProfilePhoto: (file) => {
+        const formData = new FormData();
+        formData.append("image", file);
+        return axiosInst.put('profile/photo', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((resp) => {
+            return resp.data
+        })
     }
 }

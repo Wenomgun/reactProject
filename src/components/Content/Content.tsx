@@ -6,29 +6,31 @@ import Music from "../Music/Music";
 import Setting from "../Setting/Setting";
 import UsersContainer from "../Users/UsersContainer";
 import Login from "../Login/Login";
-import ProfileContainer from "../Profile/ProfileContainer";
-import {FC} from "react";
+import React, {FC} from "react";
+import {lazyComponent} from "../hoc/lazyComponent";
+const ProfileContainer = React.lazy(() => import('../Profile/ProfileContainer'));
 
 type ContentType = {
     state: any;
     dispatch: any;
 }
 
+const LazyProfileContainer = lazyComponent(ProfileContainer)
+const LazyUsersContainer = lazyComponent(UsersContainer)
+const LazyDialogs = lazyComponent(Dialogs)
+
 const Content: FC<ContentType> = ({state, dispatch}): JSX.Element =>{
     return (
         <div className={classes.content}>
             <Switch>
                 <Route path="/profile/:userId?">
-                    <ProfileContainer/>
+                    <LazyProfileContainer/>
                 </Route>
                 <Route path="/people">
-                    <UsersContainer/>
+                    <LazyUsersContainer/>
                 </Route>
                 <Route path="/message">
-                    <Dialogs
-                        data={state}
-                        dispatch={dispatch}
-                        />
+                    <LazyDialogs data={state} dispatch={dispatch} />
                 </Route>
                 <Route path="/news">
                     <News/>

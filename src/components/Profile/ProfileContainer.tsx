@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import {getProfileData, getProfileStatus, setProfileStatusThunk} from "../../Redux/Profile-reducer";
+import {getProfileData, getProfileStatus, savePhotoThunk, setProfileStatusThunk} from "../../Redux/Profile-reducer";
 import {withRouter} from 'react-router-dom';
 import {authRedirectContainer} from "../hoc/authRedirectContainer";
 import {compose} from "redux";
@@ -15,18 +15,18 @@ type ProfileContainerPropsType = {
     getProfileStatus: Function;
     goAuth: Function;
     setProfileStatusThunk: Function;
+    savePhotoThunk: Function;
     profileData: any;
     postData: any;
     status: string;
 }
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType, any> {
-
-    componentDidMount() {
+    refreshProfile() {
         const userId = this.props.match.params.userId;
         if (userId) {
-            this.props.getProfileData(this.props.match.params.userId);
-            this.props.getProfileStatus(this.props.match.params.userId);
+            this.props.getProfileData(userId);
+            this.props.getProfileStatus(userId);
         } else {
             this.props.goAuth().then((resp: any) => {
                 const userId = resp.data.data.id;
@@ -36,10 +36,24 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, any> {
         }
     }
 
+    componentDidMount() {
+        this.refreshProfile();
+    }
+
+    componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType>, prevState: Readonly<any>, snapshot?: any) {
+        const prevUserId = prevProps.match.params.userId;
+        const userId = this.props.match.params.userId;
+        if (userId !== prevUserId) {
+            this.refreshProfile();
+        }
+    }
+
     render() {
         return <div>
             <ProfileInfo profileData={this.props.profileData}
+                         isOwner={!this.props.match.params.userId}
                          setProfileStatusThunk={this.props.setProfileStatusThunk}
+                         savePhoto={this.props.savePhotoThunk}
                          status={this.props.status}
             >
             </ProfileInfo>
@@ -57,7 +71,10 @@ const mapStateToProps = (state: any) => {
 }
 
 export default compose(
-        connect(mapStateToProps, {getProfileData, getProfileStatus, setProfileStatusThunk, goAuth}),
+        connect(mapStateToProps, {
+            getProfileData, getProfileStatus,
+            setProfileStatusThunk, goAuth, savePhotoThunk
+        }),
         authRedirectContainer,
         withRouter,
     )(ProfileContainer) as any;
