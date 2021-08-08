@@ -26,6 +26,9 @@ export const api = {
     authMe: () => {
         return axiosInst.get('/auth/me');
     },
+    getCaptcha: () => {
+        return axiosInst.get('/security/get-captcha-url');
+    },
     authLogin: (loginData) => {
         return axiosInst.post('/auth/login', {
             email: loginData.email,

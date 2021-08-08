@@ -1,29 +1,27 @@
 import {api} from "../api/api";
-import {stopSubmit} from "redux-form";
+import {FormAction, stopSubmit} from "redux-form";
+import {AxiosResponse} from "axios";
 
 const SET_USER_DATA = 'auth/setUserData';
 const SET_IS_AUTH = 'auth/setIsAuth';
+const GET_CAPTCHA = 'auth/getCaptcha';
 
-type SetUserDataAction = {
-    type: typeof SET_USER_DATA;
-    data: any;
-}
+type SetUserDataAction = { type: typeof SET_USER_DATA; data: any; }
+type SetIsAuthAction = { type: typeof SET_IS_AUTH; data?: any; }
+type GetCaptchaAction = { type: typeof GET_CAPTCHA; data?: any; }
 
-type SetIsAuthAction = {
-    type: typeof SET_IS_AUTH;
-    data?: any;
-}
-
-type AuthAction = SetUserDataAction | SetIsAuthAction;
+type AuthAction = SetUserDataAction | SetIsAuthAction | GetCaptchaAction;
 
 export type InitialUserData = {
     isAuth: boolean;
     userData: any;
+    captcha: string | null;
 }
 
 let initialUserData: InitialUserData = {
     isAuth: false,
-    userData: {}
+    userData: {},
+    captcha: null
 }
 
 const authReducer = (state: InitialUserData = initialUserData, action: AuthAction) => {
@@ -34,6 +32,10 @@ const authReducer = (state: InitialUserData = initialUserData, action: AuthActio
     } else if (action.type === SET_IS_AUTH) {
         return {
             ...state, isAuth: action.data
+        };
+    } else if (action.type === GET_CAPTCHA) {
+        return {
+            ...state, captcha: action.data
         };
     }
     return state;
@@ -49,6 +51,11 @@ export const setIsAuth = (userId: number): SetIsAuthAction => ({
     data: !!userId
 });
 
+export const getCaptcha = (url: string | null): GetCaptchaAction => ({
+    type: GET_CAPTCHA,
+    data: url
+});
+
 export const goAuth = () => {
     return (dispatch: (arg0: SetUserDataAction) => void) => {
         return api.authMe().then((resp) => {
@@ -61,15 +68,28 @@ export const goAuth = () => {
 }
 
 export const goLogin = (loginData: any) => {
-    return (dispatch: (arg0: SetIsAuthAction) => void) => {
+    return (dispatch: any) => {
         return api.authLogin(loginData).then((resp) => {
-            if (resp.data.resultCode === 0) {
+            const resultCode = resp.data.resultCode;
+            if (resultCode === 0) {
                 dispatch(setIsAuth(resp.data.data.userId));
+                dispatch(getCaptcha(null));
+            } else if (resultCode === 10) {
+                // show captcha
+                dispatch(stopSubmit('login', {login: 'Не валидные данные', pass: 'Не валидные данные'}));
+                dispatch(getCaptchaThunk());
             } else {
                 dispatch(stopSubmit('login', {login: 'Не валидные данные', pass: 'Не валидные данные'}));
             }
             return resp;
         });
+    }
+}
+
+export const getCaptchaThunk = () => {
+    return async (dispatch: (arg0: GetCaptchaAction) => void) => {
+        const resp: any = await api.getCaptcha();
+        dispatch(getCaptcha(resp.data.url as string));
     }
 }
 

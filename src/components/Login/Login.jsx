@@ -4,7 +4,7 @@ import {goLogin, goOutLogin} from "../../Redux/auth-reducer";
 import {TextField} from "../Common/TextField";
 import {maxLengthValue, requiredField} from "../../utils/validators/validators";
 import {Redirect} from "react-router-dom";
-import {selectIsAuth} from "../../Redux/auth-selectors";
+import {selectCaptcha, selectIsAuth} from "../../Redux/auth-selectors";
 
 const maxLength = maxLengthValue(40);
 
@@ -37,6 +37,16 @@ const LoginForm = (props) =>{
             <div>
                 <button>Login</button>
             </div>
+            {props.captcha && <div>
+                <img src={props.captcha} alt={'Captcha'}/>
+                <Field name={'captcha'}
+                       placeholder={'Captcha'}
+                       component={TextField}
+                       isInput={true}
+                       validate={[requiredField]}
+                />
+            </div> }
+
         </form>
     );
 }
@@ -47,7 +57,7 @@ const Login = (props) => {
            email: formData.login,
            password: formData.pass,
            rememberMe: formData.rememberMe,
-           captcha: true
+           captcha: formData.captcha
        });
     }
 
@@ -64,7 +74,7 @@ const Login = (props) => {
         } else {
             return (<div>
                 <h1>Login</h1>
-                <LoginReduxForm onSubmit={submit}></LoginReduxForm>
+                <LoginReduxForm captcha={props.captcha} onSubmit={submit}/>
             </div>)
         }
     }
@@ -78,7 +88,8 @@ const Login = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        isAuth: selectIsAuth(state)
+        isAuth: selectIsAuth(state),
+        captcha: selectCaptcha(state)
     }
 }
 
