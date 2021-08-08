@@ -1,7 +1,13 @@
 import React from 'react';
 import {connect} from "react-redux";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import {getProfileData, getProfileStatus, savePhotoThunk, setProfileStatusThunk} from "../../Redux/Profile-reducer";
+import {
+    getProfileData,
+    getProfileStatus,
+    savePhotoThunk,
+    setProfileDetailsThunk,
+    setProfileStatusThunk
+} from "../../Redux/Profile-reducer";
 import {withRouter} from 'react-router-dom';
 import {authRedirectContainer} from "../hoc/authRedirectContainer";
 import {compose} from "redux";
@@ -9,10 +15,31 @@ import PostsContainer from "./Posts/PostsContainer";
 import {goAuth} from "../../Redux/auth-reducer";
 import {selectPostData, selectProfileData, selectStatus} from "../../Redux/profile-selectors";
 
+type Contacts = {
+    github: string | null,
+    vk: string | null,
+    facebook: string | null,
+    instagram: string | null,
+    twitter: string | null,
+    website: string | null,
+    youtube: string | null,
+    mainLink: string | null
+}
+
+export type ProfileDataType = {
+    userId: number,
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string,
+    fullName: string,
+    aboutMe: string,
+    contacts: Contacts
+}
+
 type ProfileContainerPropsType = {
     match: any;
     getProfileData: Function;
     getProfileStatus: Function;
+    setProfileDetailsThunk: Function;
     goAuth: Function;
     setProfileStatusThunk: Function;
     savePhotoThunk: Function;
@@ -48,6 +75,18 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, any> {
         }
     }
 
+    submit = (formData: any) => {
+        const newDatail: ProfileDataType = {
+            userId: this.props.profileData.userId,
+            lookingForAJob: formData.lookingForAJob || false,
+            lookingForAJobDescription: formData.lookingForAJobDescription || '',
+            fullName: formData.fullName || '',
+            aboutMe: formData.aboutMe || '',
+            contacts: {...formData.contacts}
+        };
+        return this.props.setProfileDetailsThunk(newDatail);
+    }
+
     render() {
         return <div>
             <ProfileInfo profileData={this.props.profileData}
@@ -55,6 +94,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, any> {
                          setProfileStatusThunk={this.props.setProfileStatusThunk}
                          savePhoto={this.props.savePhotoThunk}
                          status={this.props.status}
+                         submit={this.submit}
             >
             </ProfileInfo>
             <PostsContainer postData={this.props.postData}/>
@@ -73,7 +113,7 @@ const mapStateToProps = (state: any) => {
 export default compose(
         connect(mapStateToProps, {
             getProfileData, getProfileStatus,
-            setProfileStatusThunk, goAuth, savePhotoThunk
+            setProfileStatusThunk, goAuth, savePhotoThunk, setProfileDetailsThunk
         }),
         authRedirectContainer,
         withRouter,

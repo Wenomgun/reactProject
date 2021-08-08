@@ -1,12 +1,15 @@
 import {api} from "../api/api";
+import {ProfileDataType} from "../components/Profile/ProfileContainer";
 
 const SET_PROFILE_DATA = 'profile/setProfileData';
 const SET_PROFILE_STATUS = 'profile/setProfileStatus';
 const CHANGE_PROFILE_PHOTO = 'profile/changeProfilePhoto';
+const SET_PROFILE_DETAIL = 'profile/setProfileDetail';
 
 type SetProfileDataAction = { type: typeof SET_PROFILE_DATA; data?: any; }
 type SetProfileStatusAction = { type: typeof SET_PROFILE_STATUS; data?: any; }
 type ChangeProfilePhotoAction = { type: typeof CHANGE_PROFILE_PHOTO; data?: any; }
+type SetProfileDetailAction = { type: typeof SET_PROFILE_DETAIL; data?: any; }
 
 let initialProfileData = {
     profileData: null as any,
@@ -19,7 +22,7 @@ let initialProfileData = {
 }
 
 type InitialProfile = typeof initialProfileData;
-type ProfileAction = SetProfileDataAction | SetProfileStatusAction | ChangeProfilePhotoAction;
+type ProfileAction = SetProfileDataAction | SetProfileStatusAction | ChangeProfilePhotoAction | SetProfileDetailAction;
 
 const profileReducer = (state: InitialProfile = initialProfileData, action: ProfileAction) => {
     if (action.type === SET_PROFILE_DATA) {
@@ -33,6 +36,10 @@ const profileReducer = (state: InitialProfile = initialProfileData, action: Prof
     } else if (action.type === CHANGE_PROFILE_PHOTO) {
         return {
             ...state, profileData: {...state.profileData, photos: action.data}
+        };
+    } else if (action.type === SET_PROFILE_DETAIL) {
+        return {
+            ...state, profileData: {...state.profileData, ...action.data}
         };
     }
     return state;
@@ -51,6 +58,11 @@ export const setProfileStatus = (profileStatus: any): SetProfileStatusAction => 
 export const changeProfilePhoto = (file: any): ChangeProfilePhotoAction => ({
     type: CHANGE_PROFILE_PHOTO,
     data: file
+});
+
+export const setProfileDetail = (details: any): SetProfileDetailAction => ({
+    type: SET_PROFILE_DETAIL,
+    data: details
 });
 
 export const getProfileData = (id: number) => {
@@ -78,6 +90,14 @@ export const savePhotoThunk = (file: any) => {
     return async (dispatch: (arg0: ChangeProfilePhotoAction) => void) => {
         const data = await api.changeProfilePhoto(file);
         dispatch(changeProfilePhoto(data.data.photos));
+    }
+}
+
+export const setProfileDetailsThunk = (newDatail: ProfileDataType) => {
+    return async (dispatch: (arg0: (dispatch: (arg0: SetProfileDataAction) => void) => Promise<void>) => void) => {
+        const data = await api.setProfileDetail(newDatail);
+        // dispatch(setProfileDetail(newDatail));
+        dispatch(getProfileData(newDatail.userId));
     }
 }
 

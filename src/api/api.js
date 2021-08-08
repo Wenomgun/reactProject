@@ -64,5 +64,14 @@ export const api = {
         }).then((resp) => {
             return resp.data
         })
+    },
+    setProfileDetail: (newDetails) => {
+        return axiosInst.put('profile', JSON.stringify(newDetails), {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((resp) => {
+            return resp.data
+        })
     }
 }
