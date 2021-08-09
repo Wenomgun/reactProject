@@ -1,6 +1,5 @@
 import {api} from "../api/api";
-import {FormAction, stopSubmit} from "redux-form";
-import {AxiosResponse} from "axios";
+import {stopSubmit} from "redux-form";
 import {ThunkAction} from "redux-thunk";
 import {AllStateType} from "./Store";
 

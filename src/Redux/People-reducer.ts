@@ -1,5 +1,4 @@
 import {api} from "../api/api";
-import {Dispatch} from "redux";
 import {ThunkAction} from "redux-thunk";
 import {AllStateType} from "./Store";
 
@@ -92,9 +91,9 @@ export const setIsProgress = (isProgress: any): SetIsProgressAction => ({
     data: isProgress
 });
 
-type ThunckPeopleType = ThunkAction<Promise<void>, AllStateType, any, PeopleAction>;
+type ThunkPeopleType = ThunkAction<Promise<void>, AllStateType, any, PeopleAction>;
 
-export const getUsers = (page = 1): ThunckPeopleType => {
+export const getUsers = (page = 1): ThunkPeopleType => {
     return async (dispatch) => {
         dispatch(setCurrentPage(page));
         dispatch(setIsFetching(true));
@@ -107,7 +106,7 @@ export const getUsers = (page = 1): ThunckPeopleType => {
     }
 }
 
-export const changeFollowed = (user: any): ThunckPeopleType => {
+export const changeFollowed = (user: any): ThunkPeopleType => {
     return async (dispatch) => {
         const newUser = {...user, isFollowed: user.followed};
         dispatch(setIsProgress(true));
