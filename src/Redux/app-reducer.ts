@@ -1,5 +1,7 @@
 import {api} from "../api/api";
-import {FormAction, stopSubmit} from "redux-form";
+import {stopSubmit} from "redux-form";
+import {ThunkAction} from "redux-thunk";
+import {AllStateType} from "./Store";
 
 const SET_USER_DATA = 'app/setUserData';
 const SET_IS_AUTH = 'app/setIsAuth';
@@ -32,8 +34,10 @@ export const setIsAuth = (userId: any) => ({
     data: !!userId
 });
 
-export const goAuth = () => {
-    return (dispatch: (arg0: { type: string; data: any; }) => void) => {
+type ThunkAppType = ThunkAction<Promise<any>, AllStateType, any, any>
+
+export const goAuth = (): ThunkAppType => {
+    return (dispatch) => {
         return api.authMe().then((resp) => {
             dispatch(setUserData({
                 ...resp.data.data
@@ -42,9 +46,9 @@ export const goAuth = () => {
     }
 }
 
-export const goLogin = (loginData: any) => {
-    return (dispatch: (arg0: FormAction) => void) => {
-        api.authLogin(loginData).then((resp) => {
+export const goLogin = (loginData: any): ThunkAppType => {
+    return (dispatch) => {
+        return api.authLogin(loginData).then((resp) => {
             if (resp.data.resultCode === 0) {
                 dispatch(setIsAuth(resp.data.data.userId));
             } else {
@@ -54,9 +58,9 @@ export const goLogin = (loginData: any) => {
     }
 }
 
-export const goOutLogin = () => {
+export const goOutLogin = (): ThunkAppType => {
     return (dispatch: (arg0: { type: any; data: boolean; }) => void) => {
-        api.authLogout().then((resp) => {
+        return api.authLogout().then((resp) => {
             if (resp.data.resultCode === 0) {
                 dispatch(setIsAuth(false));
             }

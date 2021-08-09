@@ -1,6 +1,8 @@
 import {api} from "../api/api";
 import {FormAction, stopSubmit} from "redux-form";
 import {AxiosResponse} from "axios";
+import {ThunkAction} from "redux-thunk";
+import {AllStateType} from "./Store";
 
 const SET_USER_DATA = 'auth/setUserData';
 const SET_IS_AUTH = 'auth/setIsAuth';
@@ -56,8 +58,10 @@ export const getCaptcha = (url: string | null): GetCaptchaAction => ({
     data: url
 });
 
-export const goAuth = () => {
-    return (dispatch: (arg0: SetUserDataAction) => void) => {
+type ThunkAuthType = ThunkAction<Promise<any>, AllStateType, any, AuthAction>
+
+export const goAuth = (): ThunkAuthType => {
+    return (dispatch) => {
         return api.authMe().then((resp) => {
             dispatch(setUserData({
                 ...resp.data.data
@@ -67,8 +71,8 @@ export const goAuth = () => {
     }
 }
 
-export const goLogin = (loginData: any) => {
-    return (dispatch: any) => {
+export const goLogin = (loginData: any): ThunkAuthType => {
+    return (dispatch) => {
         return api.authLogin(loginData).then((resp) => {
             const resultCode = resp.data.resultCode;
             if (resultCode === 0) {
@@ -86,15 +90,15 @@ export const goLogin = (loginData: any) => {
     }
 }
 
-export const getCaptchaThunk = () => {
-    return async (dispatch: (arg0: GetCaptchaAction) => void) => {
+export const getCaptchaThunk = (): ThunkAuthType => {
+    return async (dispatch) => {
         const resp: any = await api.getCaptcha();
         dispatch(getCaptcha(resp.data.url as string));
     }
 }
 
-export const goOutLogin = () => {
-    return async (dispatch: (arg0: SetIsAuthAction) => void) => {
+export const goOutLogin = (): ThunkAuthType => {
+    return async (dispatch) => {
         const resp = await api.authLogout();
         if (resp.data.resultCode === 0) {
             dispatch(setIsAuth(0));
